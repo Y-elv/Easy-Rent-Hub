@@ -8,7 +8,7 @@ class User extends Model {
   public email!: string;
   public role!: string;
   public password!: string;
-  public isVerified!: boolean;
+  public isverified!: boolean;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -29,6 +29,11 @@ class User extends Model {
 
 User.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -49,7 +54,7 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    isVerified: {
+    isverified: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },

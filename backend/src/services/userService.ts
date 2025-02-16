@@ -3,10 +3,10 @@ import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import emailService from "./emailService";
 import dotenv from "dotenv";
+import { Request, Response } from "express";
 
 dotenv.config();
 class UserService {
-  
   async createUser(
     name: string,
     email: string,
@@ -60,10 +60,20 @@ class UserService {
 
   async loginUser(email: string, password: string) {
     try {
+      console.log("email from login:", email);
+
       // Find user by email
       const user = await User.findOne({ where: { email } });
       if (!user) {
         throw new Error("User not found");
+      }
+
+      console.log("user.isverified:", user.isverified); // Debug the value of isverified
+
+      // Check if email is verified
+      if (!user.isverified) {
+        console.log("User's email is not verified"); // Debugging statement
+        throw new Error("Your email is not verified. Please verify it first.");
       }
 
       // Check if password matches
@@ -83,30 +93,44 @@ class UserService {
       return { token };
     } catch (error) {
       console.error("Error logging in user:", error);
+
+      // Catch the specific error for unverified email
+      if (
+        error instanceof Error &&
+        error.message === "Your email is not verified. Please verify it first."
+      ) {
+        throw new Error("Your email is not verified. Please verify it first.");
+      }
+
+      // Default error response for other errors
       throw new Error("Login failed");
     }
   }
 
-  async verifyEmail(token: string) {
+  async verifyEmailService(token: string) {
     try {
-      const decoded = jwt.verify(
-        token,
-        process.env.JWT_SECRET_KEY || "your_default_jwt_secret_key"
-      ) as JwtPayload & {
-        email: string;
-      };
+      // Verify the token and extract the user information (e.g., email)
+      const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY || "") as JwtPayload;
+      const email = decoded.email;
 
-      const user = await User.findOne({ where: { email: decoded.email } });
+      // Find the user by email
+      const user = await User.findOne({ where: { email } });
+
       if (!user) {
         throw new Error("User not found");
       }
-      user.isVerified = true;
+
+      // Verify the user's email
+      user.isverified = true;
       await user.save();
-      return user;
+
+      return { message: "Email verified successfully" };
     } catch (error) {
-      throw new Error("Email verification failed");
+      console.error("Error in verifyEmailService:", error);
+      throw new Error("Verification failed");
     }
   }
-}
 
+
+}
 export default new UserService();

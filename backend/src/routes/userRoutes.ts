@@ -4,6 +4,7 @@ import {
   getUserById,
   getAllUsers,
   loginUser,
+  verifyEmail,
 } from "../controllers/userController";
 import verifyToken from "../middlewares/verifyToken";
 
@@ -13,5 +14,7 @@ router.post("/", createUser);
 router.get("/:id", verifyToken, getUserById);
 router.get("/", verifyToken, getAllUsers);
 router.post("/login", loginUser);
+router.get("/check/verify-email", verifyEmail);
+
 
 export default router;
