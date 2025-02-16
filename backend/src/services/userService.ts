@@ -1,8 +1,12 @@
 import User from "../models/user";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import emailService from "./emailService";
+import dotenv from "dotenv";
 
+dotenv.config();
 class UserService {
+  
   async createUser(
     name: string,
     email: string,
@@ -10,17 +14,23 @@ class UserService {
     role: string
   ) {
     try {
-      console.log("name", name);
-      console.log("email", email);
-      console.log("password", password);
-      console.log("role", role);
-
       const user = await User.create({ name, email, password, role });
-      console.log("user created");
-      console.log("user", user);
+      console.log("user:", user);
+
+      const verificationToken = jwt.sign(
+        { email },
+        process.env.JWT_SECRET_KEY || "your_default_jwt_secret_key",
+        { expiresIn: "1h" }
+      );
+
+      console.log("verificationToken:", verificationToken);
+
+      // Send verification email
+      await emailService.sendVerificationEmail(email, verificationToken);
+
       return user;
     } catch (error) {
-      console.error("Error creating user:", error);
+      console.error("Error creating user:", error); // Log error to console
       throw new Error("Error creating user");
     }
   }
@@ -48,7 +58,6 @@ class UserService {
     }
   }
 
- 
   async loginUser(email: string, password: string) {
     try {
       // Find user by email
@@ -71,10 +80,31 @@ class UserService {
       );
 
       // Return the formatted response
-      return {token };
+      return { token };
     } catch (error) {
       console.error("Error logging in user:", error);
       throw new Error("Login failed");
+    }
+  }
+
+  async verifyEmail(token: string) {
+    try {
+      const decoded = jwt.verify(
+        token,
+        process.env.JWT_SECRET_KEY || "your_default_jwt_secret_key"
+      ) as JwtPayload & {
+        email: string;
+      };
+
+      const user = await User.findOne({ where: { email: decoded.email } });
+      if (!user) {
+        throw new Error("User not found");
+      }
+      user.isVerified = true;
+      await user.save();
+      return user;
+    } catch (error) {
+      throw new Error("Email verification failed");
     }
   }
 }

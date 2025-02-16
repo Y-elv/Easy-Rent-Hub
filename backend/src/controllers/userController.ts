@@ -3,12 +3,16 @@ import UserService from "../services/userService";
 
 const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, email, password ,role } = req.body;
-    console.log("body:",req.body)
+    const { name, email, password, role } = req.body;
+    console.log("Request Body:", req.body); // Log the body of the request
+
     const user = await UserService.createUser(name, email, password, role);
+
+    console.log("User created:", user); // Log the created user
     res.status(201).json({ message: "User created successfully", user });
   } catch (error) {
     const err = error as Error; // Explicitly cast to Error
+    console.error("Error creating user:", err.message); // Log error to console
     res
       .status(500)
       .json({ message: "Error creating user", error: err.message });
