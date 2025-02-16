@@ -7,7 +7,7 @@ Welcome to the Rental Booking System! This project implements a seamless rental 
 ## Features
 
 ### Backend
-- **User Authentication**: Secure login and logout using Google Sign-In (OAuth).
+- **User Authentication**: Secure login , Email Verification and logout using Google Sign-In (OAuth).
 - **User Roles**: Users can register as Renters or Hosts.
 - **Property Listing**: Hosts can create, update, and delete property listings. Renters can view all available properties.
 - **Booking System**: Renters can book properties by specifying check-in and check-out dates. Bookings have statuses: Pending, Confirmed, and Canceled.
