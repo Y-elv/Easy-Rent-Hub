@@ -13,7 +13,7 @@ app.use(cors());
 app.get("/", (req: Request, res: Response) => {
   res.send("testing node setUp!");
 });
-app.use("/api/v1", userRoutes);
+app.use("/api/v1/users", userRoutes);
 
 connectDB();
 

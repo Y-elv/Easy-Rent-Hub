@@ -3,8 +3,9 @@ import UserService from "../services/userService";
 
 const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, email, role } = req.body;
-    const user = await UserService.createUser(name, email, role);
+    const { name, email, password ,role } = req.body;
+    console.log("body:",req.body)
+    const user = await UserService.createUser(name, email, password, role);
     res.status(201).json({ message: "User created successfully", user });
   } catch (error) {
     const err = error as Error; // Explicitly cast to Error
@@ -37,4 +38,15 @@ const getAllUsers = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { createUser, getUserById, getAllUsers };
+const loginUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = req.body;
+    const user = await UserService.loginUser(email, password);
+    res.status(200).json({ message: "User logged in successfully", user });
+  } catch (error) {
+    const err = error as Error; // Explicitly cast to Error
+    res.status(401).json({ message: "Invalid credentials", error: err.message });
+  }
+};
+
+export { createUser, getUserById, getAllUsers ,loginUser};
