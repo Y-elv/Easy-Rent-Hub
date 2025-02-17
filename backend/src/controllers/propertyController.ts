@@ -137,12 +137,11 @@ const getAvailableProperties = async (
   }
 };
 
-
 export {
   createProperty,
   getAllProperties,
   getPropertyById,
   updateProperty,
   deleteProperty,
-  getAvailableProperties
+  getAvailableProperties,
 };

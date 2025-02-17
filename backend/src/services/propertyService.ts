@@ -1,6 +1,7 @@
 import Property from "../models/property";
 
 class PropertyService {
+    
   async createProperty(data: any) {
     return await Property.create(data);
   }

@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import { connectDB } from "./config/database";
 import userRoutes from "./routes/userRoutes";
+import bookingRoutes from "./routes/bookingRoutes";
 import propertyRoutes from "./routes/propertyRoutes";
 import { configurePassport } from "./utils/configurePassport";
 import passport from "passport";
@@ -38,6 +39,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/properties", propertyRoutes);
+app.use("/api/v1/booking", bookingRoutes);
 
 app.get(
   "/api/v1/auth/google",
