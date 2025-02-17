@@ -102,10 +102,47 @@ const deleteProperty = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const getAvailableProperties = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    console.log("Fetching available properties...");
+
+    // Fetch available properties using the service
+    const properties = await PropertyService.getAvailableProperties();
+
+    console.log("Properties retrieved successfully");
+
+    // If no properties found, return a 404 response
+    if (properties.length === 0) {
+      res.status(404).json({
+        message: "No available properties found",
+      });
+      return;
+    }
+
+    // Return success response with the available properties
+    res.status(200).json({
+      message: "Properties retrieved successfully",
+      properties,
+    });
+  } catch (error) {
+    const err = error as Error;
+    console.error("Error retrieving properties:", err.message); // Log error to console
+    res.status(500).json({
+      message: "Error retrieving properties",
+      error: err.message,
+    });
+  }
+};
+
+
 export {
   createProperty,
   getAllProperties,
   getPropertyById,
   updateProperty,
   deleteProperty,
+  getAvailableProperties
 };

@@ -9,6 +9,7 @@ class Property extends Model {
   public price!: number;
   public location!: string;
   public hostId!: string;
+  public propertyAvailable!: boolean; 
 
   static associate(models: any) {
     Property.belongsTo(models.User, { foreignKey: "hostId" });
@@ -19,7 +20,7 @@ Property.init(
   {
     id: {
       type: DataTypes.UUID,
-      defaultValue: uuidv4, // Generate UUID automatically
+      defaultValue: uuidv4, 
       primaryKey: true,
     },
     title: {
@@ -31,7 +32,7 @@ Property.init(
       allowNull: false,
     },
     price: {
-      type: DataTypes.DECIMAL(10, 2), // Ensuring price is stored correctly
+      type: DataTypes.DECIMAL(10, 2), 
       allowNull: false,
       validate: {
         isNumeric: true,
@@ -50,12 +51,17 @@ Property.init(
         key: "id",
       },
     },
+    propertyAvailable: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true, // By default, property is available
+      allowNull: false,
+    },
   },
   {
     sequelize,
     modelName: "Property",
     tableName: "properties",
-    timestamps: true, // Enables createdAt and updatedAt automatically
+    timestamps: true, 
   }
 );
 

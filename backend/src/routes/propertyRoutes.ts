@@ -4,7 +4,8 @@ import {
     deleteProperty,
     getAllProperties,
     getPropertyById,
-    updateProperty
+    updateProperty,
+    getAvailableProperties
 } from "../controllers/propertyController";
 import verifyToken from "../middlewares/verifyToken";
 import checkRole from "../middlewares/checkRole";
@@ -16,5 +17,6 @@ router.get("/", getAllProperties);
 router.get("/:id", getPropertyById);
 router.put("/:id", verifyToken, checkRole("Hosts"), updateProperty);
 router.delete("/:id", verifyToken, checkRole("Hosts"), deleteProperty);
+router.get("/check/available", getAvailableProperties);
 
 export default router;

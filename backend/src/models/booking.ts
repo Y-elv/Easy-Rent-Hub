@@ -1,65 +1,67 @@
-import { Model, DataTypes, Sequelize } from "sequelize";
+import { Model, DataTypes } from "sequelize";
+import { sequelize } from "../config/database";
+import { v4 as uuidv4 } from "uuid";
 
-interface BookingAttributes {
-  id?: number;
-  checkIn: Date;
-  checkOut: Date;
-  status: string;
-  propertyId: number;
-  renterId: number;
+class Booking extends Model {
+  public id!: string;
+  public propertyId!: string;
+  public renterId!: string;
+  public checkInDate!: Date;
+  public checkOutDate!: Date;
+  public status!: string; // Pending, Confirmed, or Canceled
+
+  static associate(models: any) {
+    Booking.belongsTo(models.Property, { foreignKey: "propertyId" });
+    Booking.belongsTo(models.User, { foreignKey: "renterId" });
+  }
 }
 
-module.exports = (sequelize: Sequelize) => {
-  class Booking extends Model<BookingAttributes> implements BookingAttributes {
-    public id!: number;
-    public checkIn!: Date;
-    public checkOut!: Date;
-    public status!: string;
-    public propertyId!: number;
-    public renterId!: number;
-
-    static associate(models: any) {
-      // Define associations here
-      Booking.belongsTo(models.Property, { foreignKey: "propertyId" });
-      Booking.belongsTo(models.User, { foreignKey: "renterId" });
-    }
-  }
-
-  Booking.init(
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-      },
-      checkIn: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      checkOut: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      status: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      propertyId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      renterId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+Booking.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: uuidv4, // Generate UUID automatically
+      primaryKey: true,
+    },
+    propertyId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: "Properties",
+        key: "id",
       },
     },
-    {
-      sequelize,
-      modelName: "Booking",
-      tableName: "bookings",
-      timestamps: true, // Adds createdAt and updatedAt
-    }
-  );
+    renterId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+    },
+    checkInDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    checkOutDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "pending", // Default status is 'pending'
+      validate: {
+        isIn: [["pending", "confirmed", "canceled"]],
+      },
+    },
+  },
+  {
+    sequelize,
+    modelName: "Booking",
+    tableName: "bookings",
+    timestamps: true, // Enables createdAt and updatedAt automatically
+  }
+);
 
-  return Booking;
-};
+export default Booking;

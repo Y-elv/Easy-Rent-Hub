@@ -25,6 +25,22 @@ class PropertyService {
     await property.destroy();
     return { message: "Property deleted successfully" };
   }
+
+  async getAvailableProperties() {
+    try {
+      // Query properties where 'propertyAvailable' is true
+      const properties = await Property.findAll({
+        where: { propertyAvailable: true },
+      });
+
+      return properties;
+    } catch (error) {
+      throw new Error(`Error retrieving properties: ${error}`);
+    }
+  }
+
 }
+
+
 
 export default new PropertyService();
