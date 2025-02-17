@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import { connectDB } from "./config/database";
 import userRoutes from "./routes/userRoutes";
+import propertyRoutes from "./routes/propertyRoutes";
 import { configurePassport } from "./utils/configurePassport";
 import passport from "passport";
 import session from "express-session";
@@ -36,6 +37,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("testing node setUp!");
 });
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/properties", propertyRoutes);
 
 app.get(
   "/api/v1/auth/google",

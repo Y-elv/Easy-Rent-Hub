@@ -1,66 +1,62 @@
-import { Model, DataTypes, Sequelize } from "sequelize";
+import { Model, DataTypes } from "sequelize";
+import { sequelize } from "../config/database";
+import { v4 as uuidv4 } from "uuid";
 
-interface PropertyAttributes {
-  id?: number;
-  title: string;
-  description: string;
-  price: number;
-  location: string;
-  hostId: number;
+class Property extends Model {
+  public id!: string;
+  public title!: string;
+  public description!: string;
+  public price!: number;
+  public location!: string;
+  public hostId!: string;
+
+  static associate(models: any) {
+    Property.belongsTo(models.User, { foreignKey: "hostId" });
+  }
 }
 
-module.exports = (sequelize: Sequelize) => {
-  class Property
-    extends Model<PropertyAttributes>
-    implements PropertyAttributes
+Property.init(
   {
-    public id!: number;
-    public title!: string;
-    public description!: string;
-    public price!: number;
-    public location!: string;
-    public hostId!: number;
-
-    static associate(models: any) {
-      // Define associations here
-    }
-  }
-
-  Property.init(
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-      },
-      title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      description: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-      price: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-      },
-      location: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      hostId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: uuidv4, // Generate UUID automatically
+      primaryKey: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.DECIMAL(10, 2), // Ensuring price is stored correctly
+      allowNull: false,
+      validate: {
+        isNumeric: true,
+        min: 0,
       },
     },
-    {
-      sequelize,
-      modelName: "Property",
-      tableName: "properties",
-      timestamps: true, // Adds createdAt and updatedAt
-    }
-  );
+    location: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    hostId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+    },
+  },
+  {
+    sequelize,
+    modelName: "Property",
+    tableName: "properties",
+    timestamps: true, // Enables createdAt and updatedAt automatically
+  }
+);
 
-  return Property;
-};
+export default Property;

@@ -22,7 +22,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
 
 const getUserById = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = parseInt(req.params.id, 10);
+    const userId = req.params.id;
     const user = await UserService.getUserById(userId);
     res.status(200).json({ user });
   } catch (error) {
