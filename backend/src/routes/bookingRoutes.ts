@@ -3,7 +3,7 @@ import {
   createBooking,
   confirmBooking,
   cancelBooking,
-} from "../controllers/BookingController";
+} from "../controllers/bookingController";
 import verifyToken from "../middlewares/verifyToken";
 import checkRole from "../middlewares/checkRole";
 
