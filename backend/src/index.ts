@@ -8,7 +8,7 @@ import { configurePassport } from "./utils/configurePassport";
 import passport from "passport";
 import session from "express-session";
 import jwt from "jsonwebtoken";
-import config from "./config/config";
+import config from "../src/config/config";
 
 console.log("Using database configuration:", config);
 
@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json({ limit: "900mb" }));
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow requests from the React frontend
+    origin: process.env.FRONTEND_URL, // Allow requests from the React frontend
     credentials: true,
   })
 );
@@ -58,9 +58,9 @@ app.get(
     console.log("aaa2");
     var redirectUrl = ``;
     if ((req.user as any)?.message === "User does not exist") {
-      redirectUrl = `http://localhost:5173/authVerification?error=${encodeURIComponent(
-        "User does not exist"
-      )}`;
+      redirectUrl = `${
+        process.env.FRONTEND_URL
+      }/authVerification?error=${encodeURIComponent("User does not exist")}`;
       return res.redirect(redirectUrl);
     }
     if (req.user) {
@@ -73,10 +73,12 @@ app.get(
       });
 
       // Redirect the user with the token as a query parameter
-      res.redirect(`http://localhost:5173/authVerification?token=${token}`);
+      res.redirect(
+        `${process.env.FRONTEND_URL}/authVerification?token=${token}`
+      );
     } else {
       return res.redirect(
-        `http://localhost:5173/authVerification?error=Unknown error`
+        `${process.env.FRONTEND_URL}/authVerification?error=Unknown error`
       );
     }
   }
