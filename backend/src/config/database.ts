@@ -6,17 +6,13 @@ dotenv.config(); // Load environment variables
 const isProduction = process.env.NODE_ENV === "production";
 
 // Use production or development configuration based on NODE_ENV
-const DB_NAME = isProduction
-  ? (process.env.DB_PROD_NAME as string)
-  : (process.env.DB_NAME as string);
-const DB_USER = isProduction
-  ? (process.env.DB_PROD_USER as string)
-  : (process.env.DB_USER as string);
+const DB_NAME = isProduction ? process.env.DB_PROD_NAME || '' : process.env.DB_NAME || '';
+const DB_USER = isProduction ? process.env.DB_PROD_USER || '' : process.env.DB_USER || '';
 const DB_PASSWORD = isProduction
-  ? (process.env.DB_PROD_PASSWORD as string)
-  : (process.env.DB_PASSWORD as string);
+  ? process.env.DB_PROD_PASSWORD || ''
+  : process.env.DB_PASSWORD || '';
 const DB_HOST = isProduction
-  ? (process.env.DB_PROD_HOST as string)
+  ? process.env.DB_PROD_HOST
   : process.env.DB_HOST || "localhost";
 const DB_PORT = isProduction
   ? Number(process.env.DB_PROD_PORT)
