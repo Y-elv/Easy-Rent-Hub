@@ -8,6 +8,9 @@ import { configurePassport } from "./utils/configurePassport";
 import passport from "passport";
 import session from "express-session";
 import jwt from "jsonwebtoken";
+import config from "./config/config";
+
+console.log("Using database configuration:", config);
 
 const app: Application = express();
 const PORT = process.env.PORT || 8000;
