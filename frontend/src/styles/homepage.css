@@ -1,4 +1,14 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+.search{
+    display: flex;
+    justify-content: center;
+    margin-top: 75px;
+    
+  
+}
+.background{
+    height: 100vh;
+    margin-left: 332px;
+    margin-top: 40px;
+    border: 1px solid red;
+
 }

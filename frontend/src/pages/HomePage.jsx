@@ -1,14 +1,24 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+
 import "../styles/HomePage.css";
+
+import Layout from "../components/Layout";
+import Search from "../components/Search";
 
 const HomePage = () => {
   return (
-    <div>
-      <Navbar />
-      <Sidebar />
-    </div>
+
+      <div>
+        <Layout />
+        <div className="search">
+            <Search />
+        </div>
+        <div className="background">
+            hello
+        </div>
+
+      </div>
+    
   );
 };
 
