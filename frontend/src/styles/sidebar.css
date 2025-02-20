@@ -1,0 +1,55 @@
+/* Sidebar Styling */
+.sidebar {
+  background-color: #4a90e2;
+  border-right: 1px solid #e0e0e0;
+  width: 250px;
+  height: 100vh;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Default button styling */
+.sidebar-button {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  border: none;
+  background-color: transparent;
+  color: white;
+  font-size: 18px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 8px;
+}
+
+/* Active button (Home initially and hovered buttons) */
+.sidebar-button.active,
+.sidebar-button:hover {
+  background-color: white;
+  color: #4a90e2;
+  width: 98%;
+  margin: 2px 2px;
+}
+
+/* Icon color change on hover */
+.sidebar-button.active .sidebar-icon,
+.sidebar-button:hover .sidebar-icon {
+  color: #4a90e2;
+}
+
+/* Sidebar icon default size */
+.sidebar-icon {
+  font-size: 24px;
+  margin-right: 10px;
+  transition: color 0.3s;
+}
+
+/* Ensure visibility of text on larger screens */
+@media (min-width: 1024px) {
+  .hidden {
+    display: inline-block;
+  }
+}

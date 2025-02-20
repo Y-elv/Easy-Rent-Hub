@@ -1,0 +1,60 @@
+.card {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 12rem;
+  object-cover: cover;
+}
+
+.card-content {
+  padding: 1rem;
+}
+
+.availability-indicator {
+  display: inline-block;
+}
+
+.card-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-description {
+  color: #4a5568;
+  margin-bottom: 1rem;
+}
+
+.card-location {
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+.card-rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.star-icon {
+  color: #fbbf24; /* yellow-500 */
+}
+
+.card-price {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.card-link {
+  color: #3182ce;
+  text-decoration: none;
+}
+
+.card-link:hover {
+  text-decoration: underline;
+}

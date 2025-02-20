@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 
 const AuthVerification = () => {
   const location = useLocation();
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
-    const token = query.get('token');
-    const error = query.get('error');
+    const token = query.get("token");
+    const error = query.get("error");
 
     if (token) {
       // Save the token in local storage or context
-      localStorage.setItem('token', token);
+      localStorage.setItem("token", token);
       // Optionally, redirect to a protected route
     }
 
