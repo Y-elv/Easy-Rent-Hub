@@ -41,7 +41,7 @@ const HomePage = () => {
   return (
     <div>
       <Layout />
-      <div className="search">
+      <div className="search-renters">
         <Search />
       </div>
       <div className="background">

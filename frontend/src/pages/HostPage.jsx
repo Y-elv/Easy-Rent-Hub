@@ -6,9 +6,12 @@ import Layout from "../components/Layout";
 import Search from "../components/Search";
 import Card from "../components/card";
 import data from "../assets/data";
+import PropertyModal from "../components/PropertyModal";
+import { Button } from "antd";
 
 const HostPage = () => {
   const [properties, setProperties] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate(); 
 
   useEffect(() => {
@@ -45,6 +48,18 @@ const HostPage = () => {
       <Layout />
       <div className="search">
         <Search />
+        <div>
+          <button
+            className="host-button"
+            type="primary"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Create Property
+          </button>
+          {isModalOpen && (
+            <PropertyModal onClose={() => setIsModalOpen(false)} />
+          )}
+        </div>
       </div>
       <div className="background">
         {properties.map((property) => (
