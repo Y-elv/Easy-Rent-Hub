@@ -1,27 +1,26 @@
 import React, { useState } from "react";
-import { FaGoogle } from "react-icons/fa";
 import "../styles/login.css";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleLogin = () => {
-    window.location.href = "http://localhost:8000/api/v1/auth/google";
-  };
+  const [name, setName] = useState("");
+  const [role, setRole] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Email:", email, "Password:", password);
+    console.log("Name:", name, "Role:", role, "password:", password);
+
     // Handle login logic here
   };
 
   return (
     <div className="login-container">
       <div className="login-box">
-        <h1 className="login-title">Welcome Back</h1>
-        <p className="login-subtitle">Sign in to continue</p>
+        <h1 className="login-title">Welcome </h1>
+        <p className="login-subtitle">Sign Up to continue</p>
 
         <form className="login-form" onSubmit={handleSubmit}>
           <input
@@ -40,24 +39,33 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <input
+            type="text"
+            placeholder="Name"
+            className="login-input"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Role"
+            className="login-input"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+          />
           <button type="submit" className="login-btn">
-            Login
+            SignUp
           </button>
         </form>
 
-        <div className="separator">OR</div>
-
-        <button className="google-login-btn" onClick={handleLogin}>
-          <FaGoogle className="google-icon" />
-          Login with Google
-        </button>
-
-        <Link to="/sign-up" className="signup-link">
-          Don't have an account? Sign up here
+        <Link to="/login" className="signup-link">
+          have an account? Login here
         </Link>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default SignUp;

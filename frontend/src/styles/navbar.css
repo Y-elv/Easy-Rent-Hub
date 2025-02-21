@@ -42,3 +42,29 @@
     background-color: #4a90e2;
     color: white;
 }
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-circle {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  color: blue;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid blue;
+}
+
+.notification-icon {
+  font-size: 20px;
+  color: blue;
+  cursor: pointer;
+}

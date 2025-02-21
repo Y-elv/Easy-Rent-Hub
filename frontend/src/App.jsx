@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import AuthVerification from './pages/AuthVerification';
 import HomePage from './pages/HomePage';
 import CardDetails from './pages/CardDetails';
+import SignUp from './pages/Signup';
 
 function App() {
   
@@ -16,6 +17,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/auth-verification" element={<AuthVerification />} />
         <Route path="/card/:id" element={<CardDetails />}/>
+        <Route path="*" element={<h1>Not Found</h1>} />
+        <Route path="/sign-up" element={<SignUp />} />
       </Routes>
     </div>
   );
