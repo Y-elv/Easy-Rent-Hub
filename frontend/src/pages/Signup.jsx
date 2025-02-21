@@ -1,20 +1,53 @@
 import React, { useState } from "react";
 import "../styles/login.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import BaseUrl from "../utils/config";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Email:", email, "Password:", password);
-    console.log("Name:", name, "Role:", role, "password:", password);
+ const handleSubmit = async (e) => {
+   e.preventDefault();
+   console.log("Email:", email, "Password:", password);
+   console.log("Name:", name, "Role:", role, "password:", password);
 
-    // Handle login logic here
-  };
+   try {
+     const response = await axios.post(`${BaseUrl}/users`, {
+       email,
+       password,
+       name,
+       role,
+     });
+
+     if (response.status === 200) {
+       toast.success("SignUp successful! Go to Gmail to verify your email.", {
+         position: "top-right",
+         autoClose: 3000, // Keep toast open for 3 seconds
+       });
+
+       console.log("SignUp successful! Go to Gmail to verify your email.");
+
+       // Use setTimeout to delay navigation
+       setTimeout(() => {
+         navigate("/login");
+       }, 3000); // Wait for 3 seconds before navigating
+     }
+   } catch (error) {
+     console.error("SignUp Error:", error);
+     toast.error(error.response?.data?.message || "Invalid credentials", {
+       position: "top-right",
+     });
+   }
+ };
+
 
   return (
     <div className="login-container">

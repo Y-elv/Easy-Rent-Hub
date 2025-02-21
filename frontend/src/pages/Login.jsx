@@ -1,21 +1,63 @@
 import React, { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import BaseUrl from "../utils/config";
 import "../styles/login.css";
-import { Link } from "react-router-dom";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    window.location.href = "http://localhost:8000/api/v1/auth/google";
-  };
+ const handleLogin = async (e) => {
+   e.preventDefault();
+   try {
+     const response = await axios.post(`${BaseUrl}/users/login`, {
+       email,
+       password,
+     });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Email:", email, "Password:", password);
-    // Handle login logic here
-  };
+     if (response.status === 200) {
+       const token = response.data.result.token;
+       localStorage.setItem("token", token);
+
+       // Decode JWT token manually
+       const base64Url = token.split(".")[1]; // Get the payload part
+       const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+       const decodedPayload = JSON.parse(atob(base64));
+
+       let role = ""; 
+
+       if (decodedPayload && decodedPayload.role) {
+         role = decodedPayload.role;
+       }
+
+       toast.success("Login successful! Redirecting...", {
+         position: "top-right",
+       });
+
+       setTimeout(() => {
+         if (role === "Renters") {
+           navigate("/");
+         } else if (role === "Hosts") {
+           navigate("/hosts");
+         } else {
+           navigate("/"); // Default fallback
+         }
+       }, 2000);
+     }
+   } catch (error) {
+     console.error("Login Error:", error);
+     toast.error(error.response?.data?.message || "Invalid credentials", {
+       position: "top-right",
+     });
+   }
+ };
+
 
   return (
     <div className="login-container">
@@ -23,7 +65,7 @@ const Login = () => {
         <h1 className="login-title">Welcome Back</h1>
         <p className="login-subtitle">Sign in to continue</p>
 
-        <form className="login-form" onSubmit={handleSubmit}>
+        <form className="login-form" onSubmit={handleLogin}>
           <input
             type="email"
             placeholder="Email"
@@ -47,7 +89,10 @@ const Login = () => {
 
         <div className="separator">OR</div>
 
-        <button className="google-login-btn" onClick={handleLogin}>
+        <button
+          className="google-login-btn"
+          onClick={() => (window.location.href = `${BaseUrl}/auth/google`)}
+        >
           <FaGoogle className="google-icon" />
           Login with Google
         </button>

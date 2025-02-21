@@ -46,25 +46,27 @@
 .user-section {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 18px;
+  margin-right: 30px;
 }
 
 .profile-circle {
   width: 40px;
   height: 40px;
   background-color: white;
-  color: blue;
+  color: #4a90e2;
   font-size: 18px;
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 2px solid blue;
+  border: 2px solid 4a90e2;
+  cursor: pointer;
 }
 
 .notification-icon {
-  font-size: 20px;
-  color: blue;
+  font-size: 25px;
+  color: white;
   cursor: pointer;
 }
