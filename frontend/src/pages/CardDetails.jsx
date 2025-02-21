@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   FaHeart,
@@ -15,12 +15,42 @@ import data from "../assets/data";
 import "../styles/cardDetails.css";
 import Layout from "../components/Layout";
 import BookingModal from "../components/BookingModal";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import BaseUrl from "../utils/config";
+import { Spin, Flex } from "antd";
+import UpdateModal from "../components/UpdateModal";
 
 const CardDetails = () => {
   const { id } = useParams();
-  const card = data.find((item) => item.id === parseInt(id));
   const [saved, setSaved] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [card, setCard] = useState(null);
+  const [isUpdateModal, setIsUpdateModal] = useState(false);
+  
+
+  const handleFetchCard = async (id) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${BaseUrl}/properties/${id}`);
+      console.log("Response from carddetails:", response);
+      setCard(response.data.property);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast.error("Failed to fetch property details.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      handleFetchCard(id);
+    }
+  }, [id]);
+
 
   if (!card) {
     return <p className="not-found">Card not found!</p>;
@@ -51,6 +81,35 @@ const CardDetails = () => {
     }
   }
 
+const handleDelete = async () => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this property?"
+  );
+  if (!confirmDelete) return;
+  try {
+    console.log("id from deleting card",id);
+    console.log("token from deleting card",token);
+    const response = await axios.delete(`${BaseUrl}/properties/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    });
+
+    toast.success("Property deleted successfully!");
+    setTimeout(() => navigate("/hosts"));
+  } catch (error) {
+    console.error("Error deleting property:", error);
+    toast.error("Failed to delete property.");
+  } 
+};
+
+const handleUpdate = async () => {
+  setIsUpdateModal(true);
+
+
+};
+
+
   return (
     <div>
       <Layout />
@@ -75,7 +134,7 @@ const CardDetails = () => {
           </p>
         </div>
         <div className="offers">
-          {card.offers.includes("WiFi") && (
+          {card.offers.includes("Wifi") && (
             <p>
               <FaWifi className="icon" /> WiFi
             </p>
@@ -85,17 +144,17 @@ const CardDetails = () => {
               <FaDumbbell className="icon" /> Gym
             </p>
           )}
-          {card.offers.includes("Smart TV") && (
+          {card.offers.includes("Tv") && (
             <p>
               <FaTv className="icon" /> Smart TV
             </p>
           )}
-          {card.offers.includes("Breakfast Included") && (
+          {card.offers.includes("Breakfast") && (
             <p>
               <FaCoffee className="icon" /> Breakfast Included
             </p>
           )}
-          {card.offers.includes("Private Garden") && (
+          {card.offers.includes("Garden") && (
             <p>
               <FaTree className="icon" /> Private Garden
             </p>
@@ -132,8 +191,39 @@ const CardDetails = () => {
         <div className="booking-section">
           {role === "Hosts" ? (
             <>
-              <button className="update-button">Update</button>
-              <button className="delete-button">Delete</button>
+              <div className="update-btn">
+                <span>Update your Property:</span>
+                <button
+                  className="update-button"
+                  onClick={() => handleUpdate()}
+                >
+                  Update
+                </button>
+                {isUpdateModal && (
+                  <UpdateModal
+                    onClose={() => setIsUpdateModal(false)}
+                    property={card}
+                    id={id}
+                  />
+                )}
+              </div>
+
+              <div className="delete-btn">
+                <span>Delete your Property:</span>
+                <button
+                  className="delete-button"
+                  onClick={handleDelete}
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <Flex justify="center" align="center">
+                      <Spin size="large" />
+                    </Flex>
+                  ) : (
+                    "Delete"
+                  )}
+                </button>
+              </div>
             </>
           ) : (
             <button

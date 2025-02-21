@@ -63,7 +63,7 @@ const sampleData = [
     ],
   },
   {
-    id: 5,
+    id:"d91d820a-9201-412d-b082-1f04b9c5316e",
     title: "House",
     location: "Kigali, Rwanda",
     price: "1100",

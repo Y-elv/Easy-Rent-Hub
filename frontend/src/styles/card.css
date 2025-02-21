@@ -4,9 +4,9 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   width: 90%;
-  height: 60%;
-  max-width: 300px;
-  margin: 20px;
+  height: 34%;
+  max-width: 320px;
+  margin: 10px;
   cursor:pointer;
 }
 
@@ -30,26 +30,26 @@
 .card-title {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #1e3a8a;
+  color: #4a90e2;
   margin-bottom: 0.5rem;
 }
 
 .card-description {
   font-size: 1rem;
-  color: #1e3a8a;
+  color: #4a90e2;
   margin-bottom: 0.5rem;
 }
 
 .card-location {
   font-size: 0.875rem;
-  color: #1e3a8a;
+  color: #4a90e2;
   margin-bottom: 0.5rem;
 }
 
 .card-price {
   font-size: 1rem;
   font-weight: bold;
-  color: #1e3a8a;
+  color: #4a90e2;
 }
 
 .card-content-right {
@@ -61,14 +61,14 @@
 }
 
 .star-icon {
-  color: #1e3a8a;
+  color: #4a90e2;
   font-size: 1.5rem;
 }
 
 .rating {
   margin-left: 0.5rem;
   font-size: 1rem;
-  color: #1e3a8a;
+  color: #4a90e2;
   font-size: larger;
   font-weight: bolder;
   margin-top: 4px;

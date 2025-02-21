@@ -100,6 +100,7 @@
   height: 300px;
   object-fit: cover;
   border-radius: 10px;
+  image-rendering: crisp-edges;
 }
 
 .small-images {
@@ -125,8 +126,8 @@
 .booking-section
 {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
     margin-top: 40px;
 
 }
@@ -141,4 +142,46 @@
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.update-btn,
+.delete-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.update-btn span,
+.delete-btn span {
+  font-size: 16px;
+  font-weight: bold;
+  color: #4a90e2;
+}
+
+.update-button,
+.delete-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-top: 10px;
+}
+
+.update-button:hover,
+.delete-button:hover {
+  background-color: white;
+  color: #4a90e2;
+  border: 2px solid #4a90e2;
+}
+
+.delete-button:disabled {
+  background-color: #a1c9f1;
+  cursor: not-allowed;
+  border: none;
 }

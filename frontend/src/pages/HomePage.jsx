@@ -5,7 +5,7 @@ import "../styles/HomePage.css";
 import Layout from "../components/Layout";
 import Search from "../components/Search";
 import Card from "../components/card";
-import data from "../assets/data";
+import BaseUrl from "../utils/config";
 
 const HomePage = () => {
   const [properties, setProperties] = useState([]);
@@ -14,9 +14,11 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/data/sampleData.json");
-        console.log(data);
-        const filteredData = data.map((item) => ({
+        const response = await axios.get(
+          `${BaseUrl}/properties/check/available`
+        );
+        console.log(" Response from server:", response);
+        const filteredData = response.data.properties.map((item) => ({
           id: item.id, // Include ID
           title: item.title,
           location: item.location,

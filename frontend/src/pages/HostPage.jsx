@@ -5,19 +5,21 @@ import "../styles/HomePage.css";
 import Layout from "../components/Layout";
 import Search from "../components/Search";
 import Card from "../components/card";
-import data from "../assets/data";
 import PropertyModal from "../components/PropertyModal";
-import { Button } from "antd";
+import BaseUrl from "../utils/config";
 
 const HostPage = () => {
+
   const [properties, setProperties] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate(); 
+   
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/data/sampleData.json");
+        const response = await axios.get(`${BaseUrl}/properties/check/available`);
+        const data = response.data.properties;
         console.log(data);
         const filteredData = data.map((item) => ({
           id: item.id, // Include ID
