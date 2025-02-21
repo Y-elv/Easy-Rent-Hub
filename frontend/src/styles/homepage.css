@@ -5,10 +5,15 @@
     
   
 }
-.background{
-    height: 100vh;
+
+.background {
+    height: 200vh;
     margin-left: 332px;
     margin-top: 40px;
     border: 1px solid red;
-
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ensures at most 3 cards per row */
+    gap: 20px; /* Adds spacing between cards */
+    overflow-y: auto;
+    padding: 20px; /* Optional padding for better spacing */
 }
