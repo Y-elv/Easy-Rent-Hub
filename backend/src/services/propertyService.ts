@@ -1,9 +1,22 @@
 import Property from "../models/property";
+import { uploadImages } from "./imageService";
 
 class PropertyService {
-    
-  async createProperty(data: any) {
-    return await Property.create(data);
+  async createProperty(
+    data: any,
+    images: Express.Multer.File[]
+  ): Promise<any> {
+    console.log("Creating property with images in service..", data, images);
+    const imagePaths = images.map((image: Express.Multer.File) => image.path);
+    const imageUrls = await uploadImages(imagePaths);
+
+    const propertyData = {
+      ...data,
+      imageUrls: imageUrls,
+    };
+    console.log("Property data with images:", propertyData);
+
+    return await Property.create(propertyData);
   }
 
   async getAllProperties() {
@@ -39,9 +52,6 @@ class PropertyService {
       throw new Error(`Error retrieving properties: ${error}`);
     }
   }
-
 }
-
-
 
 export default new PropertyService();

@@ -8,7 +8,8 @@ import { configurePassport } from "./utils/configurePassport";
 import passport from "passport";
 import session from "express-session";
 import jwt from "jsonwebtoken";
-import config from "../src/config/config";
+import config from "./config/config";
+
 
 console.log("Using database configuration:", config);
 

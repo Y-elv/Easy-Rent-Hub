@@ -5,7 +5,20 @@ const createProperty = async (req: Request, res: Response): Promise<void> => {
   try {
     console.log("Request Body:", req.body); // Log request body
 
-    const property = await PropertyService.createProperty(req.body);
+    if (!req.files || !Array.isArray(req.files)) {
+      console.log("No images uploaded or invalid file format");
+      res
+        .status(400)
+        .json({ message: "No images uploaded or invalid file format" });
+      return;
+    }
+
+    console.log("Uploaded Files:", req.files); // Log uploaded files
+
+    const property = await PropertyService.createProperty(
+      req.body,
+      req.files as Express.Multer.File[]
+    );
 
     console.log("Property created:", property); // Log created property
     res
