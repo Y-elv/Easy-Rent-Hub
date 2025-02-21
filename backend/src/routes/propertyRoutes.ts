@@ -21,7 +21,6 @@ const upload = multer({ dest: "uploads/" }); // Configure multer for file upload
 router.post("/upload", upload.array("images"), uploadImagesController);
 
 // ✅ Route to create a property with image upload
-
 router.post(
   '/',
   verifyToken,
@@ -41,6 +40,7 @@ router.put(
   "/:id",
   verifyToken,
   checkRole("Hosts"),
+  upload.array("images"),
   updateProperty
 );
 

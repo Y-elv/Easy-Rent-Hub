@@ -32,6 +32,25 @@ const CardDetails = () => {
     setSaved(!saved);
   };
 
+  // Retrieve and decode token to get the role
+  let role = "";
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    try {
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      const decodedPayload = JSON.parse(atob(base64));
+
+      if (decodedPayload && decodedPayload.role) {
+        role = decodedPayload.role;
+        console.log("Role from card details:", role);
+      }
+    } catch (error) {
+      console.error("Error decoding token:", error);
+    }
+  }
+
   return (
     <div>
       <Layout />
@@ -108,15 +127,25 @@ const CardDetails = () => {
             </>
           )}
         </div>
+
+        {/* Conditional Button Rendering Based on Role */}
         <div className="booking-section">
-          <button
-            className="booking-button"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Book Now
-          </button>
+          {role === "Hosts" ? (
+            <>
+              <button className="update-button">Update</button>
+              <button className="delete-button">Delete</button>
+            </>
+          ) : (
+            <button
+              className="booking-button"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Book Now
+            </button>
+          )}
         </div>
       </div>
+
       {isModalOpen && (
         <BookingModal cardId={id} onClose={() => setIsModalOpen(false)} />
       )}

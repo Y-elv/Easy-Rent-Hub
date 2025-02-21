@@ -2,10 +2,7 @@ import Property from "../models/property";
 import { uploadImages } from "./imageService";
 
 class PropertyService {
-  async createProperty(
-    data: any,
-    images: Express.Multer.File[]
-  ): Promise<any> {
+  async createProperty(data: any, images: Express.Multer.File[]): Promise<any> {
     console.log("Creating property with images in service..", data, images);
     const imagePaths = images.map((image: Express.Multer.File) => image.path);
     const imageUrls = await uploadImages(imagePaths);
@@ -27,10 +24,23 @@ class PropertyService {
     return await Property.findByPk(id);
   }
 
-  async updateProperty(id: string, data: any) {
+  async updateProperty(id: string, data: any, images?: Express.Multer.File[]) {
     const property = await Property.findByPk(id);
     if (!property) throw new Error("Property not found");
-    return await property.update(data);
+
+    let imageUrls = property.imageUrls || []; // Retain existing images if no new ones are uploaded
+
+    if (images && images.length > 0) {
+      console.log("Uploading new images for property update...");
+      const imagePaths = images.map((image: Express.Multer.File) => image.path);
+      const uploadedUrls = await uploadImages(imagePaths);
+      imageUrls = uploadedUrls; // Replace with new images
+    }
+
+    const updatedData = { ...data, imageUrls };
+
+    await property.update(updatedData);
+    return property;
   }
 
   async deleteProperty(id: string) {

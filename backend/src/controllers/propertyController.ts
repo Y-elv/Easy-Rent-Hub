@@ -80,12 +80,22 @@ const updateProperty = async (req: Request, res: Response): Promise<void> => {
   try {
     console.log("Updating property ID:", req.params.id);
 
+    let images: Express.Multer.File[] = [];
+    if (req.files && Array.isArray(req.files)) {
+      images = req.files as Express.Multer.File[];
+      console.log(
+        "New images uploaded:",
+        images.map((file) => file.filename)
+      );
+    }
+
     const updatedProperty = await PropertyService.updateProperty(
       req.params.id,
-      req.body
+      req.body,
+      images
     );
-    console.log("Property updated:", updatedProperty);
 
+    console.log("Property updated:", updatedProperty);
     res
       .status(200)
       .json({ message: "Property updated successfully", updatedProperty });

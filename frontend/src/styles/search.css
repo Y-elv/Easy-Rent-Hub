@@ -27,6 +27,11 @@
   border-color: #4a90e2;
   box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
 }
+.search-input::placeholder
+{
+  color: #4a90e2;
+  opacity: 1;
+}
 
 /* Search button */
 .search-button {

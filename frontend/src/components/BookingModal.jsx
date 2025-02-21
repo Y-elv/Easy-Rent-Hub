@@ -2,16 +2,34 @@ import React, { useState } from "react";
 import "../styles/modal.css";
 
 const BookingModal = ({ cardId, onClose }) => {
-  const renterId = localStorage.getItem("token"); // Replace with actual token extraction logic
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
   const [guests, setGuests] = useState(1);
+
+  // Retrieve and decode token to get the renterId
+  let renterId = "";
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    try {
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      const decodedPayload = JSON.parse(atob(base64));
+
+      if (decodedPayload && decodedPayload.id) {
+        renterId = decodedPayload.id;
+        console.log("renterId from card details:", renterId);
+      }
+    } catch (error) {
+      console.error("Error decoding token:", error);
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const bookingData = {
       propertyId: cardId,
-      renterId,
+      renterId : renterId,
       checkInDate,
       checkOutDate,
       guests,
