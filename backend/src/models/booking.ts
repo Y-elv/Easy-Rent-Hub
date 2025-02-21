@@ -10,6 +10,7 @@ class Booking extends Model {
   public checkOutDate!: Date;
   public status!: string; // Pending, Confirmed, or Canceled
 
+
   static associate(models: any) {
     Booking.belongsTo(models.Property, { foreignKey: "propertyId" });
     Booking.belongsTo(models.User, { foreignKey: "renterId" });

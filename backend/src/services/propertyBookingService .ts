@@ -8,7 +8,8 @@ class PropertyBookingService {
     propertyId: string,
     renterId: string,
     checkInDate: Date,
-    checkOutDate: Date
+    checkOutDate: Date,
+
   ) {
     try {
       console.log("Request received with:", checkInDate, checkOutDate);
@@ -58,6 +59,7 @@ class PropertyBookingService {
         checkInDate,
         checkOutDate,
         status: "pending",
+        
       });
 
       return {
@@ -112,6 +114,19 @@ class PropertyBookingService {
       throw new Error(`Error canceling booking: ${error}`);
     }
   }
+
+  // Function to fetch where status is pending
+  async getPendingBookings() {
+    try {
+      return await Booking.findAll({
+        where: { status: "pending" }
+      });
+    } catch (error) {
+      throw new Error(`Error fetching pending bookings: ${error}`);
+    }
+  }
+
+
 }
 
 export default  new PropertyBookingService();

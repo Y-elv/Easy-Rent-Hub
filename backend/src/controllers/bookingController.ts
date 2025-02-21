@@ -74,4 +74,25 @@ const cancelBooking = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { createBooking, confirmBooking, cancelBooking };
+const getPendingBookings = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const pendingBookings = await PropertyBookingService.getPendingBookings();
+    res.status(200).json({
+      message: "Pending bookings fetched successfully",
+      data: pendingBookings,
+    });
+  } catch (error) {
+    console.error("Error fetching pending bookings:", (error as Error).message);
+    res.status(500).json({
+      message: "Error fetching pending bookings",
+      error: (error as Error).message,
+    });
+  }
+};
+
+
+
+export { createBooking, confirmBooking, cancelBooking, getPendingBookings };
