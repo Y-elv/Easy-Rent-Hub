@@ -108,6 +108,16 @@ const handleUpdate = async () => {
 
 };
 
+const handleBookingClick = () => {
+  const token = localStorage.getItem("token"); 
+  if (!token) {
+    window.location.href = "/login"; 
+  } else {
+    setIsModalOpen(true); 
+  }
+};
+
+
 
   return (
     <div>
@@ -227,7 +237,7 @@ const handleUpdate = async () => {
           ) : (
             <button
               className="booking-button"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => handleBookingClick()}
             >
               Book Now
             </button>
