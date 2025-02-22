@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaHome, FaSearch, FaSave, FaClock } from "react-icons/fa";
+import { GiConfirmed } from "react-icons/gi";
+import { FaCity } from "react-icons/fa";
 import "../styles/Sidebar.css";
 
 const Sidebar = () => {
@@ -25,14 +27,14 @@ const Sidebar = () => {
 
   const menuItems = [
     { icon: FaHome, text: "Home", path: "/" },
-    { icon: FaSearch, text: "Explore", path: "/explore" },
+    { icon: FaCity, text: "Explore", path: "/explore" },
     { icon: FaSave, text: "Saved", path: "/saved" },
   ];
 
   const menuItemsForHost = [
     { icon: FaHome, text: "Home", path: "/hosts" },
     { icon: FaClock, text: "Pending", path: "/Pending" },
-    { icon: FaSave, text: "Saved", path: "/saved" },
+    { icon: GiConfirmed, text: "Confirmed", path: "/confirmed" },
   ];
 
   const selectedMenu = role === "Hosts" ? menuItemsForHost : menuItems;

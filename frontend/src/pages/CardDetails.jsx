@@ -11,7 +11,6 @@ import {
   FaTree,
   FaCar,
 } from "react-icons/fa";
-import data from "../assets/data";
 import "../styles/cardDetails.css";
 import Layout from "../components/Layout";
 import BookingModal from "../components/BookingModal";

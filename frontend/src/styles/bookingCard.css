@@ -1,0 +1,72 @@
+.booking-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    padding: 20px;
+}
+
+.booking-card {
+    max-width: 300px;
+    height: 60vh;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #ddd;
+    background-color: white;
+}
+
+.booking-card-image {
+    height: 150px;
+    width: 100%;
+    border: 1px solid red;
+    background-size: cover;
+    background-position: center;
+}
+
+.booking-card-content {
+    padding: 16px;
+}
+
+.booking-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #4a90e2;
+}
+
+.booking-info {
+    color: #555;
+    margin-top: 4px;
+}
+
+.booking-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+
+.confirm-btn {
+    background-color: #4a90e2;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.confirm-btn:hover {
+    background-color: #357abd;
+}
+
+.cancel-btn {
+    background-color: white;
+    color: #4a90e2;
+    border: 2px solid #4a90e2;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background-color: #4a90e2;
+    color: white;
+}

@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import VerifyEmail from './pages/VerifyEmail';
 import HostPage from './pages/HostPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import Pending from './pages/Pending';
 
 function App() {
   
@@ -27,6 +28,7 @@ function App() {
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/hosts" element={<HostPage />} />
+          <Route path="/pending" element={<Pending/>} />
         </Route>
       </Routes>
     </div>
