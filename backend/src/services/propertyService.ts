@@ -62,6 +62,14 @@ class PropertyService {
       throw new Error(`Error retrieving properties: ${error}`);
     }
   }
+
+  //function get propertyId and return property Title
+  async getPropertyTitleById(id: string) {
+    const property = await Property.findByPk(id);
+    if (!property) throw new Error("Property not found");
+    return property.title;
+  }
+
 }
 
 export default new PropertyService();

@@ -1,6 +1,9 @@
 import Booking from "../models/booking";
 import Property from "../models/property";
 import { Op } from "sequelize";
+import EmailService from "../services/emailService";
+import UserService from "../services/userService";
+import propertyService from "./propertyService";
 
 class PropertyBookingService {
 
@@ -87,6 +90,27 @@ class PropertyBookingService {
         { propertyAvailable: false },
         { where: { id: booking.propertyId } }
       );
+        const renterEmail = await UserService.getUserEmailById(
+          booking.renterId
+        );
+        const propertyTitle = await propertyService.getPropertyTitleById(
+          booking.propertyId
+        );
+        console.log(
+          "Renter email:",
+          renterEmail,
+          "Property title:",
+          propertyTitle
+        );
+        const bookingDetails = {
+          propertyTitle: propertyTitle, // You might want to fetch the actual property title from the database
+          checkInDate: booking.checkInDate,
+          checkOutDate: booking.checkOutDate,
+        };
+        await EmailService.sendBookingConfirmationEmail(
+          renterEmail,
+          bookingDetails
+        );
 
       return booking;
     } catch (error) {
@@ -108,6 +132,27 @@ class PropertyBookingService {
         { propertyAvailable: true },
         { where: { id: booking.propertyId } }
       );
+        const renterEmail = await UserService.getUserEmailById(
+          booking.renterId
+        );
+        const propertyTitle = await propertyService.getPropertyTitleById(
+          booking.propertyId
+        );
+        console.log(
+          "Renter email:",
+          renterEmail,
+          "Property title:",
+          propertyTitle
+        );
+        const bookingDetails = {
+          propertyTitle: propertyTitle, // You might want to fetch the actual property title from the database
+          checkInDate: booking.checkInDate,
+          checkOutDate: booking.checkOutDate,
+        };
+        await EmailService.sendBookingCancellationEmail(
+          renterEmail,
+          bookingDetails
+        );
 
       return booking;
     } catch (error) {

@@ -72,9 +72,19 @@ const AuthVerification = () => {
   }, [location, navigate]);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        flexDirection: "column",
+        backgroundColor: "#4a90e2",
+        color: "white",
+      }}
+    >
       <h1>Auth Verification</h1>
-      <p>Processing authentication...</p>
+      <h3>Processing authentication...</h3>
     </div>
   );
 };

@@ -131,6 +131,19 @@ class UserService {
     }
   }
 
+  //function to pass userId and get email
+  async getUserEmailById(id: string) {
+    try {
+      const user = await User.findByPk(id);
+      if (!user) {
+        throw new Error("User not found");
+      }
+      return user.email;
+    } catch (error) {
+      console.error("Error retrieving user:", error);
+      throw new Error("Error retrieving user");
+    }
+  }
 
 }
 export default new UserService();

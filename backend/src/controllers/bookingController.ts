@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import PropertyBookingService from "./../services/propertyBookingService ";
+import EmailService from "../services/emailService";
+import UserService from "../services/userService";
 
 
 const createBooking = async (req: Request, res: Response): Promise<void> => {
