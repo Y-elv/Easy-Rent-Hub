@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaHome, FaSearch, FaSave, FaClock } from "react-icons/fa";
 import { GiConfirmed } from "react-icons/gi";
-import { FaCity } from "react-icons/fa";
+import { MdHotel } from "react-icons/md";
+;
+
 import "../styles/Sidebar.css";
 
 const Sidebar = () => {
@@ -27,7 +29,7 @@ const Sidebar = () => {
 
   const menuItems = [
     { icon: FaHome, text: "Home", path: "/" },
-    { icon: FaCity, text: "Explore", path: "/explore" },
+    { icon: MdHotel, text: "Booked", path: "/booked" },
     { icon: FaSave, text: "Saved", path: "/saved" },
   ];
 
