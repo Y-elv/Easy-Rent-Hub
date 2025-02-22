@@ -14,39 +14,48 @@ const SignUp = () => {
   const [role, setRole] = useState("");
   const navigate = useNavigate();
 
- const handleSubmit = async (e) => {
-   e.preventDefault();
-   console.log("Email:", email, "Password:", password);
-   console.log("Name:", name, "Role:", role, "password:", password);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  console.log("Email:", email, "Password:", password);
+  console.log("Name:", name, "Role:", role, "password:", password);
 
-   try {
-     const response = await axios.post(`${BaseUrl}/users`, {
-       email,
-       password,
-       name,
-       role,
-     });
+  try {
+    const response = await axios.post(`${BaseUrl}/users`, {
+      email,
+      password,
+      name,
+      role,
+    });
 
-     if (response.status === 200) {
-       toast.success("SignUp successful! Go to Gmail to verify your email.", {
-         position: "top-right",
-         autoClose: 3000, // Keep toast open for 3 seconds
-       });
+    // Accept both 200 (OK) and 201 (Created) responses
+    if (response.status === 201) {
+      toast.success("SignUp successful! Go to Gmail to verify your email.", {
+        position: "top-right",
+        autoClose: 3000, // Keep toast open for 3 seconds
+      });
 
-       console.log("SignUp successful! Go to Gmail to verify your email.");
+      console.log("SignUp successful! Go to Gmail to verify your email.");
 
-       // Use setTimeout to delay navigation
-       setTimeout(() => {
-         navigate("/login");
-       }, 3000); // Wait for 3 seconds before navigating
-     }
-   } catch (error) {
-     console.error("SignUp Error:", error);
-     toast.error(error.response?.data?.message || "Invalid credentials", {
-       position: "top-right",
-     });
-   }
- };
+      // Delay navigation to login page
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+    } else {
+      throw new Error("Unexpected response status");
+    }
+  } catch (error) {
+    console.error("SignUp Error:", error);
+
+    // Show detailed error message if available
+    toast.error(
+      error.response?.data?.message || "Something went wrong, try again.",
+      {
+        position: "top-right",
+      }
+    );
+  }
+};
+
 
 
   return (
