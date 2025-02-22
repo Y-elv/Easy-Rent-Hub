@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/bookingCard.css";
 import BaseUrl from "../utils/config";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BookingCard = () => {
   const [bookings, setBookings] = useState([]);
@@ -24,6 +26,7 @@ const BookingCard = () => {
         }
       } catch (error) {
         console.error("Error fetching pending bookings:", error);
+        toast.error("Failed to fetch pending bookings.");
       }
     };
 
@@ -85,7 +88,6 @@ const SingleBookingCard = ({ booking }) => {
         setRenter(res.data);
       })
       .catch((err) => console.error("Error fetching renter:", err));
-
   }, [propertyId, renterId, token]);
 
   const getNights = () => {
@@ -107,18 +109,42 @@ const SingleBookingCard = ({ booking }) => {
     console.log("Booking Data:", bookingData);
 
     try {
-      const response = await axios.post(`${BaseUrl}/booking/${id}/confirm`, bookingData, {
+      console.log("id of booking", id);
+      const response = await axios.put(
+        `${BaseUrl}/booking/${id}/confirm`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Booking confirmed:", response.data);
+      toast.success("Booking confirmed successfully!");
+    } catch (error) {
+      console.error("Error confirming booking:", error);
+      toast.error("Failed to confirm booking.");
+    }
+  };
+
+  const cancelBooking = async () => {
+    try {
+      console.log("Cancelling booking id:", id);
+      const response = await axios.put(`${BaseUrl}/booking/${id}/cancel`,
+        {},
+        {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Booking confirmed:", response.data);
+      console.log("Booking cancelled:", response.data);
+      toast.success("Booking cancelled successfully!");
     } catch (error) {
-      console.error("Error confirming booking:", error);
+      console.error("Error cancelling booking:", error);
+      toast.error("Failed to cancel booking.");
     }
   };
 
-  console.log("Property before html:", property);
   return (
     <div className="booking-card">
       <img
@@ -144,7 +170,9 @@ const SingleBookingCard = ({ booking }) => {
           <button className="cancel-btn" onClick={handleSubmit}>
             Confirm
           </button>
-          <button className="cancel-btn">Cancel</button>
+          <button className="cancel-btn" onClick={cancelBooking}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>

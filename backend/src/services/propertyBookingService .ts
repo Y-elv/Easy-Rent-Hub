@@ -18,7 +18,7 @@ class PropertyBookingService {
       const overlappingBookings = await Booking.findAll({
         where: {
           propertyId,
-          status: "confirmed",
+          status: "pending",
           [Op.and]: [
             {
               [Op.or]: [
