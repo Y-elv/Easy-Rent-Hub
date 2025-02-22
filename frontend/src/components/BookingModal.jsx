@@ -40,18 +40,23 @@ const BookingModal = ({ onClose }) => {
     };
     console.log("Booking Data:", bookingData);
 
-    try {
-      const response = await axios.post(`${BaseUrl}/booking`, bookingData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log("Response from booking:", response);
-      toast.success("Booking confirmed successfully!");
-    } catch (error) {
-      console.error("Error creating booking:", error);
-      toast.error("Failed to create booking.");
-    }
+  try {
+    const response = await axios.post(`${BaseUrl}/booking`, bookingData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("Response from booking:", response);
+    toast.success("Booking confirmed successfully!");
+  } catch (error) {
+    console.error("Error creating booking:", error);
+    const errorMessage =
+      error.response?.data?.message || "Error creating booking";
+    setTimeout(() => {
+      toast.error(errorMessage);
+    }, 1000); 
+  }
+
 
     onClose();
   };
