@@ -139,7 +139,7 @@ const handleBookingClick = () => {
             <FaBed className="icon" /> {card.bedrooms} Bedrooms
           </p>
           <p>
-            <strong>Price:</strong> ${card.price}/month
+            <strong>Price:</strong> ${card.price}/night
           </p>
         </div>
         <div className="offers">
