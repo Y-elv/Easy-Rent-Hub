@@ -18,7 +18,6 @@
 .booking-card-image {
     height: 150px;
     width: 100%;
-    border: 1px solid red;
     background-size: cover;
     background-position: center;
 }
