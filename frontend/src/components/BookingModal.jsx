@@ -1,12 +1,17 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../styles/modal.css";
+import BaseUrl from "../utils/config";
 
-const BookingModal = ({ cardId, onClose }) => {
+const BookingModal = ({ onClose }) => {
+  const { id: propertyId } = useParams();
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
   const [guests, setGuests] = useState(1);
 
-  // Retrieve and decode token to get the renterId
   let renterId = "";
   const token = localStorage.getItem("token");
 
@@ -25,17 +30,28 @@ const BookingModal = ({ cardId, onClose }) => {
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const bookingData = {
-      propertyId: cardId,
-      renterId : renterId,
+      propertyId,
+      renterId,
       checkInDate,
       checkOutDate,
-      guests,
     };
     console.log("Booking Data:", bookingData);
-    // Handle API call here
+
+    try {
+      const response = await axios.post(`${BaseUrl}/booking`, bookingData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("Response from booking:", response);
+      toast.success("Booking confirmed successfully!");
+    } catch (error) {
+      console.error("Error creating booking:", error);
+      toast.error("Failed to create booking.");
+    }
 
     onClose();
   };
